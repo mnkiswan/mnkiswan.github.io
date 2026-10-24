@@ -240,6 +240,7 @@ footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
     <div class="brand">Emilia<span>AI Architect for Zoho</span></div>
     <nav class="nav" aria-label="Sections">
       <a href="#work">Work</a>
+      <a href="#workflows">Workflows</a>
       <a href="#runs">Test runs</a>
       <a href="#offer">Offer</a>
       <a href="#skills">Skills</a>
@@ -296,7 +297,7 @@ footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
       <div>
         <div class="status-row">
           <span class="chip c-hot">In build</span>
-          <span class="eyebrow">Project 01</span>
+          <span class="eyebrow">Project 01 · FlowOps 2</span>
         </div>
         <h3>AI Lead Triage for Zoho CRM</h3>
         <p class="summary">Small teams lose leads by answering late or answering the wrong ones first. This flow sends each new lead to Claude, writes the answer back into Zoho CRM, and routes it one of four ways.</p>
@@ -309,7 +310,7 @@ footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
         <div class="stack">
           <span class="tag">Zoho CRM</span><span class="tag">Zoho Flow</span><span class="tag">Claude API</span><span class="tag">Web form · Email · WhatsApp</span>
         </div>
-        <p class="evidence"><strong>Where it stands:</strong> the 18-field data model is live in my CRM and test leads are flowing in. The Claude scoring and routing step is being finished, followed by a recorded demo.</p>
+        <p class="evidence"><strong>Where it stands:</strong> FlowOps 2 runs in Zoho Flow today. A <span class="mono">triageLead</span> custom function classifies each new lead (1 recorded run, successful). Next, Claude goes inside that function and fills the AI fields below. <a href="https://mnkiswan.github.io/flowops-2-ai-lead-triage/" target="_blank" rel="noopener">Case study</a></p>
       </div>
       <div class="diagram full">
         <div class="scroll">
@@ -385,12 +386,13 @@ footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
           <li>One intake standard instead of free-form emails</li>
           <li>Account and deal created in Zoho CRM without retyping</li>
           <li>Welcome document generated in Zoho Writer</li>
-          <li>Onboarding tasks assigned in Zoho Projects</li>
+          <li>Onboarding tasks assigned in Zoho Projects, routed by client segment: Enterprise, Group or Default</li>
+          <li>An error path opens an alert task if a CRM or Writer step fails</li>
         </ul>
         <div class="stack">
           <span class="tag">Zoho Forms</span><span class="tag">Zoho Flow</span><span class="tag">Zoho CRM</span><span class="tag">Zoho Writer</span><span class="tag">Zoho Projects</span>
         </div>
-        <p class="evidence"><strong>Proof:</strong> end-to-end demo video recorded (available on request). Test client Northwind Studio went through the CRM step on 20 Oct 2026.</p>
+        <p class="evidence"><strong>Proof:</strong> end-to-end demo video recorded (available on request). Test client Northwind Studio went through the CRM step on 20 Oct 2026. <a href="https://mnkiswan.github.io/client-onboarding-automation/" target="_blank" rel="noopener">Case study</a></p>
       </div>
       <div class="diagram full">
         <div class="scroll">
@@ -454,6 +456,27 @@ footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
   </div>
 </section>
 
+<section class="band" id="workflows">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>All five Zoho Flow workflows</h2>
+      <p>Each has its own diagram, step-by-step breakdown and business case. The <a href="https://mnkiswan.github.io/zoho-flow-portfolio/" target="_blank" rel="noopener">portfolio hub</a> logs 11 live runs across them.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">Workflow</th><th scope="col">Zoho apps</th><th scope="col">What it does</th><th scope="col">Links</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Client Onboarding Automation</strong></td><td>Forms, CRM, Writer, Projects</td><td>One intake form becomes a CRM account, a deal, a welcome document and a Projects task plan.</td><td><a href="https://mnkiswan.github.io/client-onboarding-automation/" target="_blank" rel="noopener">Case study</a> · <a href="https://github.com/mnkiswan/client-onboarding-automation" target="_blank" rel="noopener">Repo</a></td></tr>
+          <tr><td><strong>FlowOps 2: AI Lead Triage</strong></td><td>CRM, Flow custom function</td><td>Each new lead passes through a triage function before the record is updated, so the best prospects surface first.</td><td><a href="https://mnkiswan.github.io/flowops-2-ai-lead-triage/" target="_blank" rel="noopener">Case study</a> · <a href="https://github.com/mnkiswan/flowops-2-ai-lead-triage" target="_blank" rel="noopener">Repo</a></td></tr>
+          <tr><td><strong>FlowOps 3: Quote and Sign</strong></td><td>CRM, Writer</td><td>When a CRM record meets the condition, the quote or document goes out automatically.</td><td><a href="https://mnkiswan.github.io/flowops-3-quote-and-sign/" target="_blank" rel="noopener">Case study</a> · <a href="https://github.com/mnkiswan/flowops-3-quote-and-sign" target="_blank" rel="noopener">Repo</a></td></tr>
+          <tr><td><strong>Kickoff Booked Sync</strong></td><td>Bookings, CRM</td><td>A booked kickoff is written back to the CRM contact, so the calendar and the CRM agree.</td><td><a href="https://mnkiswan.github.io/kickoff-booked-sync/" target="_blank" rel="noopener">Case study</a> · <a href="https://github.com/mnkiswan/kickoff-booked-sync" target="_blank" rel="noopener">Repo</a></td></tr>
+          <tr><td><strong>Kickoff Booking Reminder</strong></td><td>Forms, CRM, Flow delay, email template</td><td>Waits, looks up the contact and sends the right reminder, so clients don’t miss kickoffs.</td><td><a href="https://mnkiswan.github.io/kickoff-booking-reminder/" target="_blank" rel="noopener">Case study</a> · <a href="https://github.com/mnkiswan/kickoff-booking-reminder" target="_blank" rel="noopener">Repo</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
 <section class="band" id="runs">
   <div class="wrap">
     <div class="sec-head">
@@ -506,7 +529,7 @@ footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
         <dl class="kv">
           <div><dt>Zoho CRM</dt><dd>Custom fields and picklists, data models for leads and jobs, task-based alerts</dd></div>
           <div><dt>Zoho Flow</dt><dd>Multi-step flows across Zoho apps, decision branches, error handling</dd></div>
-          <div><dt>Zoho apps</dt><dd>Forms for intake, Writer for documents, Projects for task assignment</dd></div>
+          <div><dt>Zoho apps</dt><dd>Forms for intake, Writer for documents, Projects for task plans, Bookings for scheduling</dd></div>
           <div><dt>Claude API</dt><dd>Classification prompts that return structured JSON for CRM fields</dd></div>
           <div><dt>Research</dt><dd>Sourcing and grading evidence before choosing what to build</dd></div>
         </dl>
