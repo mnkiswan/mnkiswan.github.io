@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Emilia, AI Architect</title>
+<meta name="description" content="Emilia, AI Architect for Zoho: AI lead triage, client onboarding and reliable Zoho Flow automations built with Zoho CRM and Claude.">
+<meta property="og:title" content="Emilia, AI Architect for Zoho">
+<meta property="og:description" content="Emilia, AI Architect for Zoho: AI lead triage, client onboarding and reliable Zoho Flow automations built with Zoho CRM and Claude.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mnkiswan.github.io/">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230A7262'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='17' fill='white' text-anchor='middle'%3EE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* Layout: one 1040px column on cool field-manual paper. Hero = thesis left, an example lead card right.
+   Each project is a band: status chip, what it does, a schematic, then the evidence from the CRM. */
+:root {
+  --paper: #F3F6F4;
+  --panel: #FFFFFF;
+  --ink: #14201C;
+  --muted: #55645E;
+  --rule: #D2DBD7;
+  --line: #8E9C96;
+  --accent: #0A7262;
+  --accent-soft: #DDEFEA;
+  --crit: #B23A27;
+  --hot: #A96200;
+  --nurture: #2B5F9E;
+  --review: #66716C;
+  --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: clamp(1.75rem, 1.2rem + 2.2vw, 2.5rem);
+  --step-4: clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0E1412; --panel: #151D1A; --ink: #E3ECE8; --muted: #98A9A2; --rule: #26322E; --line: #6A7A74;
+    --accent: #48C4AE; --accent-soft: #12302A; --crit: #EA7864; --hot: #E2A443; --nurture: #78A9E6; --review: #A3AEA9;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0E1412; --panel: #151D1A; --ink: #E3ECE8; --muted: #98A9A2; --rule: #26322E; --line: #6A7A74;
+  --accent: #48C4AE; --accent-soft: #12302A; --crit: #EA7864; --hot: #E2A443; --nurture: #78A9E6; --review: #A3AEA9;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.1; }
+p { margin: 0; }
+.mono { font-family: var(--f-mono); }
+.eyebrow {
+  font-family: var(--f-mono); font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+}
+
+/* Top bar */
+.top { border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-block: 14px; }
+.brand { font-family: var(--f-display); font-weight: 800; font-stretch: 115%; font-size: var(--step-1); letter-spacing: -0.01em; }
+.brand span { color: var(--muted); font-weight: 500; font-stretch: 100%; font-family: var(--f-body); font-size: var(--step--1); margin-left: 8px; }
+.nav { display: flex; flex-wrap: wrap; gap: 18px; font-size: var(--step--1); }
+.nav a { color: var(--ink); text-decoration: none; }
+.nav a:hover { color: var(--accent); }
+
+/* Hero */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px; align-items: center; padding-block: 64px 56px; }
+.hero h1 { font-size: var(--step-4); font-weight: 800; font-stretch: 112%; letter-spacing: -0.02em; margin-top: 14px; }
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero .lede { margin-top: 20px; font-size: var(--step-1); color: var(--muted); max-width: 34em; }
+.cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 6px; font-weight: 600;
+  text-decoration: none; border: 1.5px solid var(--accent); font-size: var(--step--1); letter-spacing: 0.01em;
+}
+.btn.solid { background: var(--accent); color: var(--paper); }
+.btn.ghost { color: var(--accent); background: transparent; }
+.btn:hover { filter: brightness(1.08); }
+.open { margin-top: 22px; font-size: var(--step--1); color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.open::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+
+/* Example lead card */
+.leadcard { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; min-width: 0; }
+.leadcard header { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--rule); }
+.leadcard header .eyebrow { font-size: 0.72rem; }
+.msg { padding: 16px; border-bottom: 1px dashed var(--rule); }
+.msg .eyebrow { font-size: 0.72rem; }
+.msg p { margin-top: 6px; font-size: 0.95rem; }
+.fields { padding: 8px 16px 16px; display: grid; gap: 0; }
+.field { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.field:last-child { border-bottom: 0; }
+.field dt { font-family: var(--f-mono); font-size: 0.78rem; color: var(--muted); }
+.field dd { margin: 0; font-size: 0.92rem; min-width: 0; }
+.score { font-family: var(--f-mono); font-variant-numeric: tabular-nums; font-weight: 500; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-mono); font-size: 0.74rem; font-weight: 500;
+  padding: 2px 9px; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap; line-height: 1.6;
+}
+.chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.c-crit { color: var(--crit); } .c-hot { color: var(--hot); } .c-nurture { color: var(--nurture); } .c-review { color: var(--review); } .c-accent { color: var(--accent); }
+.note { font-size: 0.75rem; color: var(--muted); padding: 10px 16px; background: var(--paper); border-top: 1px solid var(--rule); }
+
+/* Sections */
+section.band { border-top: 1px solid var(--rule); }
+section.band > .wrap { padding-block: 56px; }
+.sec-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 24px; margin-bottom: 28px; }
+.sec-head h2 { font-size: var(--step-3); font-weight: 800; font-stretch: 108%; letter-spacing: -0.015em; }
+.sec-head p { color: var(--muted); max-width: 32em; font-size: 0.95rem; }
+
+.project { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 40px; }
+.project + .project { margin-top: 56px; padding-top: 56px; border-top: 1px dashed var(--rule); }
+.project h3 { font-size: var(--step-2); font-weight: 750; font-stretch: 105%; margin-top: 10px; }
+.project .summary { margin-top: 12px; max-width: 34em; }
+.project ul { margin: 16px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.project li { padding-left: 2px; }
+.stack { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-family: var(--f-mono); font-size: 0.74rem; padding: 3px 8px; border-radius: 4px; background: var(--accent-soft); color: var(--ink); }
+.status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.evidence { margin-top: 20px; border-left: 2px solid var(--accent); padding: 4px 0 4px 14px; font-size: 0.92rem; color: var(--muted); }
+.evidence strong { color: var(--ink); font-weight: 600; }
+
+.diagram, .side { min-width: 0; }
+.project .full { grid-column: 1 / -1; order: 3; }
+.full .scroll svg { max-width: 880px; margin: 0 auto; }
+.side .schema { margin-top: 0; }
+.scroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); padding: 12px; }
+.scroll svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.cap { margin-top: 10px; font-size: 0.8rem; color: var(--muted); }
+
+/* SVG styling through tokens */
+.d-box { fill: var(--panel); stroke: var(--line); stroke-width: 1.25; }
+.d-main { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+.d-edge { fill: none; stroke: var(--line); stroke-width: 1.25; }
+.d-head { fill: var(--line); }
+.d-name { fill: var(--ink); font-family: var(--f-body); font-weight: 600; font-size: 13px; }
+.d-sub { fill: var(--muted); font-family: var(--f-body); font-size: 11.5px; }
+.d-crit { fill: var(--panel); stroke: var(--crit); stroke-width: 1.5; }
+.d-hot { fill: var(--panel); stroke: var(--hot); stroke-width: 1.5; }
+.d-nurture { fill: var(--panel); stroke: var(--nurture); stroke-width: 1.5; }
+.d-review { fill: var(--panel); stroke: var(--review); stroke-width: 1.5; stroke-dasharray: 4 3; }
+
+/* Field list (data model) */
+.schema { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 6px; }
+.schema code { font-family: var(--f-mono); font-size: 0.74rem; padding: 2px 7px; border: 1px solid var(--rule); border-radius: 4px; color: var(--ink); background: var(--panel); }
+
+/* Job lifecycle stepper */
+.stages { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 4px; counter-reset: st; }
+.stages li { counter-increment: st; display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; padding: 4px 10px 4px 6px; border: 1px solid var(--rule); border-radius: 999px; background: var(--panel); }
+.stages li::before { content: counter(st); font-family: var(--f-mono); font-size: 0.7rem; width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.stages li.exception { border-color: var(--crit); color: var(--crit); }
+.stages li.exception::before { content: "!"; background: transparent; color: var(--crit); border: 1px solid var(--crit); }
+
+/* Run log */
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--panel); }
+table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 0.9rem; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--f-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+tr:last-child td { border-bottom: 0; }
+td.when { font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 0.82rem; }
+.ok { color: var(--accent); font-weight: 600; }
+.warn { color: var(--hot); font-weight: 600; }
+
+/* Offer */
+.offer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.price { background: var(--panel); border: 1.5px solid var(--accent); border-radius: 10px; padding: 24px; }
+.price .amount { font-family: var(--f-display); font-weight: 800; font-stretch: 110%; font-size: var(--step-4); line-height: 1; margin-top: 8px; font-variant-numeric: tabular-nums; }
+.price .amount small { font-size: var(--step-0); font-weight: 500; color: var(--muted); font-family: var(--f-body); font-stretch: 100%; margin-left: 6px; }
+.price p { margin-top: 10px; color: var(--muted); font-size: 0.92rem; }
+.checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.checks li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; }
+.checks li::before { content: "\2713"; color: var(--accent); font-weight: 700; }
+
+/* Skills + principles */
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.kv { display: grid; gap: 0; margin: 0; }
+.kv div { display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--rule); }
+.kv dt { font-weight: 600; }
+.kv dd { margin: 0; color: var(--muted); }
+.principles { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; counter-reset: pr; }
+.principles li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; }
+.principles li::before { counter-increment: pr; content: counter(pr, decimal-leading-zero); font-family: var(--f-mono); color: var(--accent); font-size: 0.85rem; padding-top: 2px; }
+.principles strong { display: block; }
+.principles span { color: var(--muted); font-size: 0.95rem; }
+h3.minor { font-family: var(--f-mono); font-size: var(--step--1); font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+
+/* Contact */
+.contact { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
+.contact h2 { font-size: var(--step-3); font-weight: 800; font-stretch: 108%; }
+.contact p { color: var(--muted); margin-top: 8px; }
+.url { font-family: var(--f-mono); font-size: 0.85rem; color: var(--muted); margin-top: 8px; word-break: break-all; }
+footer { border-top: 1px solid var(--rule); }
+footer .wrap { padding-block: 20px; font-size: 0.78rem; color: var(--muted); }
+
+@media (max-width: 820px) {
+  .hero .wrap, .project, .offer, .two { grid-template-columns: minmax(0, 1fr); }
+  .hero .wrap { gap: 32px; padding-block: 40px; }
+  section.band > .wrap { padding-block: 44px; }
+}
+@media (max-width: 480px) {
+  .field { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .kv div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .nav { gap: 14px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: filter .15s ease; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Emilia<span>AI Architect for Zoho</span></div>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#runs">Test runs</a>
+      <a href="#offer">Offer</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com/mnkiswan" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Zoho CRM · Zoho Flow · Claude</div>
+      <h1>Every new lead, <em>scored and routed</em> before anyone opens the inbox.</h1>
+      <p class="lede">I build AI automations inside Zoho. A lead arrives, Claude reads it, and Zoho CRM gets an intent, an urgency, a score and the next action. Hot leads can reach a person within minutes.</p>
+      <div class="cta">
+        <a class="btn solid" href="#work">See the builds</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/emilia-ai-architect/" target="_blank" rel="noopener">Message me on LinkedIn</a>
+      </div>
+      <p class="open">Open to Zoho automation roles and fixed-price client projects.</p>
+    </div>
+
+    <aside class="leadcard" aria-label="Example of the target output for one lead">
+      <header>
+        <span class="eyebrow">Zoho CRM · Lead</span>
+        <span class="chip c-crit">Emergency</span>
+      </header>
+      <div class="msg">
+        <div class="eyebrow">Customer_Message</div>
+        <p>“Pipe burst under the kitchen sink and there’s water on the floor. Can someone come today?”</p>
+      </div>
+      <dl class="fields">
+        <div class="field"><dt>Lead_Intent</dt><dd>Ready to Buy</dd></div>
+        <div class="field"><dt>Urgency</dt><dd>High</dd></div>
+        <div class="field"><dt>Intent_Score</dt><dd class="score">92 / 100</dd></div>
+        <div class="field"><dt>Service_Type</dt><dd>Leak Repair</dd></div>
+        <div class="field"><dt>AI_Summary</dt><dd>Active kitchen leak, wants a same-day visit.</dd></div>
+        <div class="field"><dt>Next_Action</dt><dd>Call back now; open a CRM task for the owner.</dd></div>
+      </dl>
+      <div class="note">Example of the target output, written for illustration. The field names are the real ones in my CRM.</div>
+    </aside>
+  </div>
+</section>
+
+<section class="band" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Builds</h2>
+      <p>Each build lives in a working Zoho org. Status labels say exactly how far each one has got.</p>
+    </div>
+
+    <!-- Project 1 -->
+    <article class="project">
+      <div>
+        <div class="status-row">
+          <span class="chip c-hot">In build</span>
+          <span class="eyebrow">Project 01</span>
+        </div>
+        <h3>AI Lead Triage for Zoho CRM</h3>
+        <p class="summary">Small teams lose leads by answering late or answering the wrong ones first. This flow sends each new lead to Claude, writes the answer back into Zoho CRM, and routes it one of four ways.</p>
+        <ul>
+          <li>Reads the customer’s own words, not just form dropdowns</li>
+          <li>Scores intent and urgency, flags emergencies, writes a two-line summary</li>
+          <li>Emergency and Hot leads get a CRM task and an alert to the owner</li>
+          <li>Anything uncertain goes to Manual review instead of being guessed</li>
+        </ul>
+        <div class="stack">
+          <span class="tag">Zoho CRM</span><span class="tag">Zoho Flow</span><span class="tag">Claude API</span><span class="tag">Web form · Email · WhatsApp</span>
+        </div>
+        <p class="evidence"><strong>Where it stands:</strong> the 18-field data model is live in my CRM and test leads are flowing in. The Claude scoring and routing step is being finished, followed by a recorded demo.</p>
+      </div>
+      <div class="diagram full">
+        <div class="scroll">
+          <svg viewBox="0 0 760 284" role="img" aria-label="Lead triage flow: lead arrives, enters Zoho CRM, Zoho Flow sends it to Claude, CRM is updated, then the lead is routed to Emergency, Hot, Nurture or Manual review">
+            <defs>
+              <marker id="tri-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="d-head" d="M0 0L10 5L0 10z"/></marker>
+            </defs>
+            <g>
+              <path class="d-edge" d="M184 44H208" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M368 44H392" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M552 44H576" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M656 72V102" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M656 154V176"/>
+              <path class="d-edge" d="M104 176H656"/>
+              <path class="d-edge" d="M104 176V196" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M288 176V196" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M472 176V196" marker-end="url(#tri-arrow)"/>
+              <path class="d-edge" d="M656 176V196" marker-end="url(#tri-arrow)"/>
+            </g>
+            <rect class="d-box" x="24" y="16" width="160" height="56" rx="8"/>
+            <text class="d-name" x="104" y="40" text-anchor="middle">Lead arrives</text>
+            <text class="d-sub" x="104" y="56" text-anchor="middle">form, email, WhatsApp</text>
+            <rect class="d-box" x="208" y="16" width="160" height="56" rx="8"/>
+            <text class="d-name" x="288" y="40" text-anchor="middle">Zoho CRM lead</text>
+            <text class="d-sub" x="288" y="56" text-anchor="middle">AI_Status: Pending</text>
+            <rect class="d-main" x="392" y="16" width="160" height="56" rx="8"/>
+            <text class="d-name" x="472" y="40" text-anchor="middle">Zoho Flow + Claude</text>
+            <text class="d-sub" x="472" y="56" text-anchor="middle">scores and summarises</text>
+            <rect class="d-box" x="576" y="16" width="160" height="56" rx="8"/>
+            <text class="d-name" x="656" y="40" text-anchor="middle">CRM updated</text>
+            <text class="d-sub" x="656" y="56" text-anchor="middle">score, summary, path</text>
+            <polygon class="d-box" points="584,128 656,102 728,128 656,154"/>
+            <text class="d-name" x="656" y="132" text-anchor="middle">Routing_Path?</text>
+            <rect class="d-crit" x="24" y="196" width="160" height="72" rx="8"/>
+            <text class="d-name" x="104" y="220" text-anchor="middle">Emergency</text>
+            <text class="d-sub" x="104" y="236" text-anchor="middle">task + alert to owner</text>
+            <text class="d-sub" x="104" y="252" text-anchor="middle">call back first</text>
+            <rect class="d-hot" x="208" y="196" width="160" height="72" rx="8"/>
+            <text class="d-name" x="288" y="220" text-anchor="middle">Hot</text>
+            <text class="d-sub" x="288" y="236" text-anchor="middle">task + alert to owner</text>
+            <text class="d-sub" x="288" y="252" text-anchor="middle">call back same day</text>
+            <rect class="d-nurture" x="392" y="196" width="160" height="72" rx="8"/>
+            <text class="d-name" x="472" y="220" text-anchor="middle">Nurture</text>
+            <text class="d-sub" x="472" y="236" text-anchor="middle">tagged for follow-up</text>
+            <text class="d-sub" x="472" y="252" text-anchor="middle">email sequence</text>
+            <rect class="d-review" x="576" y="196" width="160" height="72" rx="8"/>
+            <text class="d-name" x="656" y="220" text-anchor="middle">Manual review</text>
+            <text class="d-sub" x="656" y="236" text-anchor="middle">low confidence or</text>
+            <text class="d-sub" x="656" y="252" text-anchor="middle">AI error: a person checks</text>
+          </svg>
+        </div>
+        <p class="cap">Flow design. Claude returns JSON; Zoho Flow writes it to the lead and branches on Routing_Path.</p>
+      </div>
+      <div class="side">
+        <h3 class="minor">Data model in my CRM</h3>
+        <div class="schema" aria-label="Custom lead fields in the CRM">
+          <code>Lead_Intent</code><code>Urgency</code><code>Intent_Score</code><code>Is_Emergency</code><code>Routing_Path</code><code>AI_Summary</code><code>Pain_Points</code><code>Buying_Signals</code><code>Next_Action</code><code>Service_Type</code><code>Service_Area</code><code>Intake_Channel</code><code>Customer_Message</code><code>AI_Status</code><code>Triage_Status</code><code>Digest_Sent</code><code>Last_Flow_Run_ID</code><code>Lead_Status_Modified_Time</code>
+        </div>
+        <p class="cap">The 18 custom fields on the Leads module that hold the AI’s answers and the flow’s state.</p>
+      </div>
+    </article>
+
+    <!-- Project 2 -->
+    <article class="project">
+      <div>
+        <div class="status-row">
+          <span class="chip c-accent">Working demo</span>
+          <span class="eyebrow">Project 02</span>
+        </div>
+        <h3>Client Onboarding Automation</h3>
+        <p class="summary">Client onboarding often starts with scattered emails and calls. Here, one standard intake form starts a chain: the client is set up in CRM, a welcome document is generated, and the team’s tasks are assigned.</p>
+        <ul>
+          <li>One intake standard instead of free-form emails</li>
+          <li>Account and deal created in Zoho CRM without retyping</li>
+          <li>Welcome document generated in Zoho Writer</li>
+          <li>Onboarding tasks assigned in Zoho Projects</li>
+        </ul>
+        <div class="stack">
+          <span class="tag">Zoho Forms</span><span class="tag">Zoho Flow</span><span class="tag">Zoho CRM</span><span class="tag">Zoho Writer</span><span class="tag">Zoho Projects</span>
+        </div>
+        <p class="evidence"><strong>Proof:</strong> end-to-end demo video recorded (available on request). Test client Northwind Studio went through the CRM step on 20 Oct 2026.</p>
+      </div>
+      <div class="diagram full">
+        <div class="scroll">
+          <svg viewBox="0 0 760 88" role="img" aria-label="Onboarding chain: Zoho Forms intake, Zoho Flow, Zoho CRM account and deal, Zoho Writer welcome doc, Zoho Projects tasks">
+            <defs>
+              <marker id="onb-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="d-head" d="M0 0L10 5L0 10z"/></marker>
+            </defs>
+            <path class="d-edge" d="M140 44H164" marker-end="url(#onb-arrow)"/>
+            <path class="d-edge" d="M292 44H316" marker-end="url(#onb-arrow)"/>
+            <path class="d-edge" d="M444 44H468" marker-end="url(#onb-arrow)"/>
+            <path class="d-edge" d="M596 44H620" marker-end="url(#onb-arrow)"/>
+            <rect class="d-box" x="12" y="16" width="128" height="56" rx="8"/>
+            <text class="d-name" x="76" y="40" text-anchor="middle">Zoho Forms</text>
+            <text class="d-sub" x="76" y="56" text-anchor="middle">client intake</text>
+            <rect class="d-main" x="164" y="16" width="128" height="56" rx="8"/>
+            <text class="d-name" x="228" y="40" text-anchor="middle">Zoho Flow</text>
+            <text class="d-sub" x="228" y="56" text-anchor="middle">moves the data</text>
+            <rect class="d-box" x="316" y="16" width="128" height="56" rx="8"/>
+            <text class="d-name" x="380" y="40" text-anchor="middle">Zoho CRM</text>
+            <text class="d-sub" x="380" y="56" text-anchor="middle">account + deal</text>
+            <rect class="d-box" x="468" y="16" width="128" height="56" rx="8"/>
+            <text class="d-name" x="532" y="40" text-anchor="middle">Zoho Writer</text>
+            <text class="d-sub" x="532" y="56" text-anchor="middle">welcome doc</text>
+            <rect class="d-box" x="620" y="16" width="128" height="56" rx="8"/>
+            <text class="d-name" x="684" y="40" text-anchor="middle">Zoho Projects</text>
+            <text class="d-sub" x="684" y="56" text-anchor="middle">tasks assigned</text>
+          </svg>
+        </div>
+        <p class="cap">One form submission starts the whole chain.</p>
+      </div>
+      <div class="side">
+        <h3 class="minor">Next: quote to cash</h3>
+        <p style="font-size:0.95rem">The CRM data model for the rest of the job is in place: eight job stages and an Overdue flag on each deal, plus fields that link the deal to its Zoho Books estimate and invoice, Zoho Sign request, Zoho Projects project, payment link and review request.</p>
+        <ol class="stages" aria-label="Job_Status stages">
+          <li>Quote Ready</li><li>Agreement Sent</li><li>Signed</li><li>Onboarding</li><li>Scheduled</li><li>Job Complete</li><li>Invoiced</li><li>Paid</li><li class="exception">Overdue</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- Project 3 -->
+    <article class="project">
+      <div>
+        <div class="status-row">
+          <span class="chip c-accent">Tested</span>
+          <span class="eyebrow">Project 03</span>
+        </div>
+        <h3>Duplicate-safe lead intake</h3>
+        <p class="summary">Automations fail quietly, and a failed run can mean a lost customer. This intake flow checks for duplicates before creating a lead. If it cannot create the lead, it opens an ALERT task in Zoho CRM with the submitted email, so a person follows up by hand.</p>
+        <div class="stack">
+          <span class="tag">Zoho Flow</span><span class="tag">Zoho CRM</span><span class="tag">Error branch</span>
+        </div>
+        <p class="evidence"><strong>Proof:</strong> a forced error test on 20 Oct 2026 produced the task “ALERT: Lead intake failed - check Zoho Flow history”, carrying the test email.</p>
+      </div>
+      <div>
+        <h3 class="minor">Market research</h3>
+        <h3 style="font-size:var(--step-1);margin-top:0">First Paying Client plan</h3>
+        <p style="margin-top:10px;font-size:0.95rem">A sourced review of AI automation as a business: 26 sources, each claim graded as observed, company-reported or unverified, then one testable offer with a 14-day plan and kill criteria. It is how I decide what to build before I build it.</p>
+        <p style="margin-top:14px;font-size:0.9rem;color:var(--muted)">Full plan available on request.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="band" id="runs">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Recent test runs</h2>
+      <p>Taken from the records in my Zoho CRM. Times are India Standard Time.</p>
+    </div>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th scope="col">When</th><th scope="col">Flow</th><th scope="col">Test input</th><th scope="col">Result</th></tr></thead>
+        <tbody>
+          <tr><td class="when">20 Oct 2026 · 22:48</td><td>Duplicate-safe lead intake</td><td>Forced error submission</td><td><span class="ok">Caught.</span> Lead not created; ALERT task opened in CRM with the form email</td></tr>
+          <tr><td class="when">20 Oct 2026 · 21:49</td><td>Client onboarding</td><td>Northwind Studio, brief: booking site + client intake</td><td><span class="ok">Passed.</span> Account and deal created, deal set to Closed Won</td></tr>
+          <tr><td class="when">16 Oct 2026 · 00:25</td><td>Lead intake for AI triage</td><td>4 test leads from 4 sources: web download, email alias, web research, chat</td><td><span class="warn">Waiting.</span> Leads created with AI_Status = Pending; Claude scoring step in build</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="offer">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>For teams already on Zoho CRM</h2>
+      <p>The lead triage build, installed in your own Zoho org and tuned on your real leads.</p>
+    </div>
+    <div class="offer">
+      <div class="price">
+        <div class="eyebrow">AI Lead Triage · live in 5 working days</div>
+        <div class="amount">$199<small>founding price, first 2 clients</small></div>
+        <p>$399 after that. Paid in two halves: $99 to start, $100 only after it sorts 10 of your past leads correctly.</p>
+        <p>Runs on your own Zoho Flow plan and Claude API key. Claude’s cost is about $0.0003 per lead.</p>
+      </div>
+      <ul class="checks">
+        <li><span>AI fields added to your Leads: intent, urgency, score, emergency flag, summary, pain points, next action</span></li>
+        <li><span>Four routes: Emergency, Hot, Nurture, Manual review</span></li>
+        <li><span>A CRM task and an email alert to the lead owner for Emergency and Hot leads</span></li>
+        <li><span>One intake source connected: a Zoho web form or email-to-CRM</span></li>
+        <li><span>A one-page guide, a 10-minute walkthrough video and 14 days of fixes</span></li>
+        <li><span>Not included: CRM migrations, new pipelines or Deluge rebuilds. Those are quoted separately.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="skills">
+  <div class="wrap">
+    <div class="two">
+      <div>
+        <h3 class="minor">Toolkit</h3>
+        <dl class="kv">
+          <div><dt>Zoho CRM</dt><dd>Custom fields and picklists, data models for leads and jobs, task-based alerts</dd></div>
+          <div><dt>Zoho Flow</dt><dd>Multi-step flows across Zoho apps, decision branches, error handling</dd></div>
+          <div><dt>Zoho apps</dt><dd>Forms for intake, Writer for documents, Projects for task assignment</dd></div>
+          <div><dt>Claude API</dt><dd>Classification prompts that return structured JSON for CRM fields</dd></div>
+          <div><dt>Research</dt><dd>Sourcing and grading evidence before choosing what to build</dd></div>
+        </dl>
+      </div>
+      <div>
+        <h3 class="minor">How I work</h3>
+        <ol class="principles">
+          <li><div><strong>Build the failure path first</strong><span>Every flow gets an error branch that tells a person, so no lead or client disappears.</span></div></li>
+          <li><div><strong>Test on real records</strong><span>A build is done when it handles your past data correctly, not when the happy path runs once.</span></div></li>
+          <li><div><strong>Label status honestly</strong><span>In build, working demo and tested mean exactly that. You always know what is finished.</span></div></li>
+          <li><div><strong>Hand over in plain language</strong><span>A one-page guide and a short video, so your team can run it without me.</span></div></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="contact">
+  <div class="wrap contact">
+    <div>
+      <h2>Let’s talk about your leads.</h2>
+      <p>Hiring for Zoho automation, or want the triage build in your CRM? Send me a message.</p>
+      <p class="url">linkedin.com/in/emilia-ai-architect · github.com/mnkiswan</p>
+    </div>
+    <a class="btn solid" href="https://www.linkedin.com/in/emilia-ai-architect/" target="_blank" rel="noopener">Message me on LinkedIn</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Emilia · AI Architect for Zoho. Project facts on this page come from my own Zoho CRM org; the lead card at the top is an illustrative example.</div>
+</footer>
+</body>
+</html>
